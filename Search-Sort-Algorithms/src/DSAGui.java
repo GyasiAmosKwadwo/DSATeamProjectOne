@@ -380,24 +380,25 @@ public class DSAGui extends JFrame {
 
     private void runLinearSearch() {
         ArrayList<Object> list = parseInput();
-        if (list == null) return;
-        
+        if (list == null)
+            return;
+
         String targetStr = targetField.getText().trim();
         if (targetStr.isEmpty()) {
             showError("Please enter a target value!");
             return;
         }
-        
+
         Object target = InputUtils.parseObjectValue(targetStr);
-        
+
         outputArea.setText("=== LINEAR SEARCH ===\n");
         outputArea.append("Input: " + list + "\n");
         outputArea.append("Target: " + target + "\n");
         outputArea.append("Searching...\n\n");
-        
+
         // Use the same comparison logic as the console version
         int result = performLinearSearchAlgorithm(list, target);
-        
+
         if (result != -1) {
             outputArea.append("✓ SUCCESS: Element '" + target + "' found at index " + result + "\n");
             outputArea.append("Time Complexity: O(n)\n");
@@ -406,7 +407,7 @@ public class DSAGui extends JFrame {
             outputArea.append("✗ NOT FOUND: Element '" + target + "' not found in the list\n");
         }
     }
-    
+
     /**
      * Linear search algorithm using the same logic as linearSearch.java
      */
@@ -418,7 +419,7 @@ public class DSAGui extends JFrame {
         }
         return -1;
     }
-    
+
     /**
      * Element comparison using the same logic as linearSearch.java
      */
@@ -427,19 +428,19 @@ public class DSAGui extends JFrame {
         if (element.equals(target)) {
             return true;
         }
-        
+
         // String representation check
         if (element.toString().equals(target.toString())) {
             return true;
         }
-        
+
         // Numeric comparison for numbers
         if (InputUtils.isNumeric(element) && InputUtils.isNumeric(target)) {
             double val1 = InputUtils.getNumericValue(element);
             double val2 = InputUtils.getNumericValue(target);
             return val1 == val2;
         }
-        
+
         return false;
     }
 

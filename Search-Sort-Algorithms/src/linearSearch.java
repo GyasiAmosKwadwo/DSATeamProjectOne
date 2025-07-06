@@ -29,7 +29,7 @@ public class linearSearch {
 
         for (int i = 0; i < list.size(); i++) {
             Object listElement = list.get(i);
-            
+
             // Use robust comparison to handle type differences
             if (compareElements(listElement, target)) {
                 System.out.println("Element '" + listElement + "' found at index " + i);
@@ -47,19 +47,19 @@ public class linearSearch {
         if (element.equals(target)) {
             return true;
         }
-        
+
         // String representation check
         if (element.toString().equals(target.toString())) {
             return true;
         }
-        
+
         // Numeric comparison for numbers
         if (InputUtils.isNumeric(element) && InputUtils.isNumeric(target)) {
             double val1 = InputUtils.getNumericValue(element);
             double val2 = InputUtils.getNumericValue(target);
             return val1 == val2;
         }
-        
+
         return false;
     }
 }
