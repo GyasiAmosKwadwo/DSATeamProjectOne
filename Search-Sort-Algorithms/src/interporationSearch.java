@@ -2,7 +2,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
 
-// .......NOT FULLY IMPLEMENTED!!.....
+/**
+ * Interpolation Search implementation
+ * An improved variant of binary search for uniformly distributed data
+ * Time Complexity: O(log log n) average case, O(n) worst case
+ * Space Complexity: O(1)
+ */
 public class interporationSearch {
     public static void main(String[] args) {
         performInterpolationSearch();

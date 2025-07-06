@@ -19,9 +19,16 @@ if (-not (Test-Path "DSAGui.java")) {
 Write-Host "Found Java files in: $(Get-Location)" -ForegroundColor Green
 Write-Host ""
 
-# Compile Java files
-Write-Host "Compiling Java files..." -ForegroundColor Yellow
-javac *.java
+# Create output directory if it doesn't exist
+$outputDir = "out\production\Search-Sort-Algorithms"
+if (-not (Test-Path $outputDir)) {
+    Write-Host "Creating output directory: $outputDir" -ForegroundColor Yellow
+    New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+}
+
+# Compile Java files to output directory
+Write-Host "Compiling Java files to $outputDir..." -ForegroundColor Yellow
+javac -d $outputDir *.java
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: Compilation failed!" -ForegroundColor Red
     Write-Host ""
@@ -32,9 +39,9 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "Compilation successful!" -ForegroundColor Green
 Write-Host ""
 
-# Run the GUI application
+# Run the GUI application from the output directory
 Write-Host "Running DSA Algorithm Visualizer..." -ForegroundColor Green
-java DSAGui
+java -cp $outputDir DSAGui
 
 Write-Host ""
 Read-Host "Press Enter to exit"

@@ -343,12 +343,12 @@ public class DSAGui extends JFrame {
     }
 
     private void setupEventListeners() {
-        linearSearchBtn.addActionListener(e -> runLinearSearch());
-        binarySearchBtn.addActionListener(e -> runBinarySearch());
-        interpolationSearchBtn.addActionListener(e -> runInterpolationSearch());
-        bubbleSortBtn.addActionListener(e -> runBubbleSort());
-        clearBtn.addActionListener(e -> clearAll());
-        aboutBtn.addActionListener(e -> showAbout());
+        linearSearchBtn.addActionListener(_ -> runLinearSearch());
+        binarySearchBtn.addActionListener(_ -> runBinarySearch());
+        interpolationSearchBtn.addActionListener(_ -> runInterpolationSearch());
+        bubbleSortBtn.addActionListener(_ -> runBubbleSort());
+        clearBtn.addActionListener(_ -> clearAll());
+        aboutBtn.addActionListener(_ -> showAbout());
     }
 
     private ArrayList<Object> parseInput() {
@@ -380,53 +380,24 @@ public class DSAGui extends JFrame {
 
     private void runLinearSearch() {
         ArrayList<Object> list = parseInput();
-        if (list == null)
-            return;
-
+        if (list == null) return;
+        
         String targetStr = targetField.getText().trim();
         if (targetStr.isEmpty()) {
             showError("Please enter a target value!");
             return;
         }
-
+        
         Object target = InputUtils.parseObjectValue(targetStr);
-
+        
         outputArea.setText("=== LINEAR SEARCH ===\n");
         outputArea.append("Input: " + list + "\n");
         outputArea.append("Target: " + target + "\n");
         outputArea.append("Searching...\n\n");
-
-        // Perform linear search using improved comparison
-        int result = -1;
-        for (int i = 0; i < list.size(); i++) {
-            Object listElement = list.get(i);
-
-            // Try multiple comparison methods to handle type differences
-            boolean found = false;
-
-            // Direct equality check
-            if (listElement.equals(target)) {
-                found = true;
-            }
-            // String representation check
-            else if (listElement.toString().equals(target.toString())) {
-                found = true;
-            }
-            // Numeric comparison for numbers
-            else if (InputUtils.isNumeric(listElement) && InputUtils.isNumeric(target)) {
-                double val1 = InputUtils.getNumericValue(listElement);
-                double val2 = InputUtils.getNumericValue(target);
-                if (val1 == val2) {
-                    found = true;
-                }
-            }
-
-            if (found) {
-                result = i;
-                break;
-            }
-        }
-
+        
+        // Use the same comparison logic as the console version
+        int result = performLinearSearchAlgorithm(list, target);
+        
         if (result != -1) {
             outputArea.append("✓ SUCCESS: Element '" + target + "' found at index " + result + "\n");
             outputArea.append("Time Complexity: O(n)\n");
@@ -434,6 +405,42 @@ public class DSAGui extends JFrame {
         } else {
             outputArea.append("✗ NOT FOUND: Element '" + target + "' not found in the list\n");
         }
+    }
+    
+    /**
+     * Linear search algorithm using the same logic as linearSearch.java
+     */
+    private int performLinearSearchAlgorithm(ArrayList<Object> list, Object target) {
+        for (int i = 0; i < list.size(); i++) {
+            if (compareElements(list.get(i), target)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    /**
+     * Element comparison using the same logic as linearSearch.java
+     */
+    private boolean compareElements(Object element, Object target) {
+        // Direct equality check
+        if (element.equals(target)) {
+            return true;
+        }
+        
+        // String representation check
+        if (element.toString().equals(target.toString())) {
+            return true;
+        }
+        
+        // Numeric comparison for numbers
+        if (InputUtils.isNumeric(element) && InputUtils.isNumeric(target)) {
+            double val1 = InputUtils.getNumericValue(element);
+            double val2 = InputUtils.getNumericValue(target);
+            return val1 == val2;
+        }
+        
+        return false;
     }
 
     private void runBinarySearch() {
@@ -708,7 +715,7 @@ public class DSAGui extends JFrame {
         closeButton.setForeground(Color.WHITE);
         closeButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
         closeButton.setFocusPainted(false);
-        closeButton.addActionListener(e -> aboutDialog.dispose());
+        closeButton.addActionListener(_ -> aboutDialog.dispose());
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBackground(CARD_COLOR);
